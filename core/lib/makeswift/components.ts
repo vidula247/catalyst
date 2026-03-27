@@ -14,3 +14,7 @@ import './components/site-header/register';
 import './components/site-theme/register';
 import './components/slideshow/register';
 import './components/sticky-sidebar/register';
+import './components/dynamic-widget/register';
+import './components/hero-banner/register';
+import './components/large-quote/register';
+import './components/seo-content/register';

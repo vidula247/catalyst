@@ -243,4 +243,83 @@ const getProductsByIds = cache(
   },
 );
 
-export { getBestSellingProducts, getFeaturedProducts, getNewestProducts, getProductsByIds };
+const GetProductsByCategoryIdQuery = graphql(
+  `
+    query getProductsByCategoryId($categoryEntityId: Int!, $first: Int, $currencyCode: currencyCode) {
+      site {
+        category(entityId: $categoryEntityId) {
+          products(first: $first) {
+            edges {
+              node {
+                categories {
+                  edges {
+                    node {
+                      name
+                      path
+                    }
+                  }
+                }
+                ...ProductCardFragment
+              }
+            }
+          }
+        }
+      }
+    }
+  `,
+  [ProductCardFragment],
+);
+
+const getProductsByCategoryId = cache(
+  async ({
+    categoryEntityId,
+    first = 12,
+    locale,
+  }: {
+    categoryEntityId: number;
+    first?: number;
+    locale?: string;
+  }) => {
+    const customerAccessToken = await getSessionCustomerAccessToken();
+    const currencyCode = await getPreferredCurrencyCode();
+    const channelId = getChannelIdFromLocale(locale);
+
+    try {
+      const response = await client.fetch({
+        document: GetProductsByCategoryIdQuery,
+        customerAccessToken,
+        variables: { categoryEntityId, first, currencyCode },
+        channelId,
+        fetchOptions: {
+          ...(locale && { headers: { 'Accept-Language': locale } }),
+          ...(customerAccessToken ? { cache: 'no-store' } : { next: { revalidate } }),
+        },
+      });
+
+      const category = response.data.site.category;
+
+      if (!category) {
+        return { status: 'success' as const, products: [] };
+      }
+
+      return {
+        status: 'success' as const,
+        products: removeEdgesAndNodes(category.products),
+      };
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return { status: 'error' as const, error: error.message };
+      }
+
+      return { status: 'error' as const, error: 'Something went wrong. Please try again.' };
+    }
+  },
+);
+
+export {
+  getBestSellingProducts,
+  getFeaturedProducts,
+  getNewestProducts,
+  getProductsByIds,
+  getProductsByCategoryId,
+};

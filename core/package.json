@@ -14,7 +14,9 @@
     "start": "next start",
     "prelint": "next typegen",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "migrate-content": "dotenv -e .env.local -- npx tsx ./scripts/migrate-content.ts",
+    "add-widget": "dotenv -e .env.local -- npx tsx ./scripts/add-widget.ts"
   },
   "dependencies": {
     "@bigcommerce/catalyst-client": "workspace:^",

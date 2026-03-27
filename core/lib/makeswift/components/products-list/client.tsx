@@ -9,6 +9,7 @@ import { useProducts } from '../../utils/use-products';
 type MSProductsListProps = Omit<ComponentPropsWithoutRef<typeof ProductList>, 'products'> & {
   className: string;
   collection: 'none' | 'best-selling' | 'newest' | 'featured';
+  categoryId?: string;
   limit: number;
   additionalProducts: Array<{
     entityId?: string;
@@ -18,13 +19,15 @@ type MSProductsListProps = Omit<ComponentPropsWithoutRef<typeof ProductList>, 'p
 export function MSProductsList({
   className,
   collection,
+  categoryId,
   limit,
   additionalProducts,
   ...props
 }: MSProductsListProps) {
   const additionalProductIds = additionalProducts.map(({ entityId }) => entityId ?? '');
+  const effectiveCollection = categoryId ? `category:${categoryId}` : collection;
   const { products, isLoading } = useProducts({
-    collection,
+    collection: effectiveCollection,
     collectionLimit: limit,
     additionalProductIds,
   });

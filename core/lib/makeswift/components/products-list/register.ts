@@ -10,6 +10,7 @@ import {
 
 import { runtime } from '~/lib/makeswift/runtime';
 
+import { searchCategories } from '../../utils/search-categories';
 import { searchProducts } from '../../utils/search-products';
 
 import { MSProductsList } from './client';
@@ -29,6 +30,18 @@ runtime.registerComponent(MSProductsList, {
         { value: 'featured', label: 'Featured' },
       ],
       defaultValue: 'best-selling',
+    }),
+    categoryId: Combobox({
+      label: 'Category (overrides collection)',
+      async getOptions(query) {
+        const categories = await searchCategories(query);
+
+        return categories.map((category) => ({
+          id: category.entityId.toString(),
+          label: category.name,
+          value: category.entityId.toString(),
+        }));
+      },
     }),
     limit: Number({ label: 'Max collection items', defaultValue: 12 }),
     additionalProducts: List({

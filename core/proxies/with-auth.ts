@@ -1,11 +1,13 @@
-import { NextResponse, URLPattern } from 'next/server';
+import { NextResponse } from 'next/server';
 
 import { anonymousSignIn, auth, clearAnonymousSession, getAnonymousSession } from '~/auth';
 
 import { type ProxyFactory } from './compose-proxies';
 
 // Path matcher for any routes that require authentication
-const protectedPathPattern = new URLPattern({ pathname: `{/:locale}?/(account)/*` });
+const isProtectedPath = (pathname: string) => {
+  return pathname.includes('/account');
+};
 
 function redirectToLogin(url: string) {
   return NextResponse.redirect(new URL('/login', url), { status: 302 });
@@ -15,7 +17,10 @@ export const withAuth: ProxyFactory = (next) => {
   return async (request, event) => {
     return auth(async (req) => {
       const anonymousSession = await getAnonymousSession();
-      const isProtectedRoute = protectedPathPattern.test(req.nextUrl.toString().toLowerCase());
+
+      // ✅ FIXED LINE (no URLPattern)
+      const isProtectedRoute = isProtectedPath(req.nextUrl.pathname.toLowerCase());
+
       const isGetRequest = req.method === 'GET';
 
       // Create the anonymous session if it doesn't exist
@@ -23,7 +28,7 @@ export const withAuth: ProxyFactory = (next) => {
         await anonymousSignIn();
       }
 
-      // If the user is authenticated and there is an anonymous session, clear the anonymous session
+      // If the user is authenticated and there is an anonymous session, clear it
       if (req.auth && anonymousSession) {
         await clearAnonymousSession();
       }

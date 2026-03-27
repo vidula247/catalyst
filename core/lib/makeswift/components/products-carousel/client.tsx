@@ -12,6 +12,7 @@ type MSProductsCarouselProps = Omit<
 > & {
   className: string;
   collection: 'none' | 'best-selling' | 'newest' | 'featured';
+  categoryId?: string;
   limit: number;
   additionalProducts: Array<{
     entityId?: string;
@@ -21,14 +22,19 @@ type MSProductsCarouselProps = Omit<
 export function MSProductsCarousel({
   className,
   collection,
+  categoryId,
   limit,
   additionalProducts,
   hideOverflow,
   ...props
 }: MSProductsCarouselProps) {
   const additionalProductIds = additionalProducts.map(({ entityId }) => entityId ?? '');
+
+  // If a category is selected, it overrides the collection dropdown
+  const effectiveCollection = categoryId ? `category:${categoryId}` : collection;
+
   const { products, isLoading } = useProducts({
-    collection,
+    collection: effectiveCollection,
     collectionLimit: limit,
     additionalProductIds,
   });

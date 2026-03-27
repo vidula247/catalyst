@@ -19,9 +19,23 @@ const fetcher = (url: string) =>
     .then(ProductListSchema.parse);
 
 interface Props {
-  collection: 'none' | 'best-selling' | 'newest' | 'featured';
+  collection: string;
   collectionLimit?: number;
   additionalProductIds: string[];
+}
+
+function getCollectionUrl(collection: string, locale: string, limit: number): string | null {
+  if (collection === 'none') return null;
+
+  // Category-based collection: "category:<entityId>"
+  if (collection.startsWith('category:')) {
+    const categoryId = collection.split(':')[1];
+
+    return `/api/products/category/${categoryId}?locale=${locale}&limit=${limit}`;
+  }
+
+  // Standard collections: best-selling, newest, featured
+  return `/api/products/group/${collection}?locale=${locale}`;
 }
 
 export function useProducts({ collection, collectionLimit = 20, additionalProductIds }: Props): {
@@ -32,7 +46,7 @@ export function useProducts({ collection, collectionLimit = 20, additionalProduc
   const locale = useLocale();
 
   const { data: collectionData, isLoading: isCollectionLoading } = useSWR(
-    collection !== 'none' ? `/api/products/group/${collection}?locale=${locale}` : null,
+    getCollectionUrl(collection, locale, collectionLimit),
     fetcher,
   );
 
