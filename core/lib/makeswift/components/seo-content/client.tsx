@@ -3,10 +3,10 @@
 import { clsx } from 'clsx';
 
 interface SeoFeature {
-  imageSrc: string;
-  imageAlt: string;
-  title: string;
-  description: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  title?: string;
+  description?: string;
 }
 
 interface SeoContentProps {

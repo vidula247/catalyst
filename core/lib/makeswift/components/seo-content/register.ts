@@ -7,7 +7,7 @@ import { MSSeoContent } from './client';
 runtime.registerComponent(MSSeoContent, {
   type: 'section-seo-content',
   label: 'Sections / SEO Content',
-  icon: 'document',
+  icon: 'text',
   props: {
     className: Style(),
     headline: TextInput({ label: 'Headline', defaultValue: 'Your Store Headline' }),

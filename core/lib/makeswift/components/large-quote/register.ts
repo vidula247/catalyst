@@ -7,7 +7,7 @@ import { MSLargeQuote } from './client';
 runtime.registerComponent(MSLargeQuote, {
   type: 'section-large-quote',
   label: 'Sections / Large Quote',
-  icon: 'quote',
+  icon: 'text',
   props: {
     className: Style(),
     quote: TextArea({ label: 'Quote', defaultValue: 'This is an inspiring quote.' }),

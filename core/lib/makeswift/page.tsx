@@ -5,7 +5,6 @@ import { getPageSnapshot } from './client';
 import { MSHeroBanner } from './components/hero-banner/client';
 import { MSLargeQuote } from './components/large-quote/client';
 import { MSProductsList } from './components/products-list/client';
-import { MSSeoContent } from './components/seo-content/client';
 import { MakeswiftPageShim } from './makeswift-page-shim';
 
 export async function Page({ path, locale }: { path: string; locale: string }) {
@@ -171,6 +170,17 @@ export async function Page({ path, locale }: { path: string; locale: string }) {
           collection="newest"
           limit={10}
         />
+      )}
+      {path === '/' && (
+        <div className="mx-auto max-w-4xl px-6 py-16">
+          <MSLargeQuote
+            accentColor="blue"
+            author="Sam Walton"
+            quote="There is only one boss. The customer. And he can fire everybody in the company from the chairman on down, simply by spending his money somewhere else."
+            role="Founder, Walmart"
+            size="x-large"
+          />
+        </div>
       )}
       {path === '/' && (
         <MSProductsList
