@@ -19,7 +19,7 @@
     "add-widget": "dotenv -e .env.local -- npx tsx ./scripts/add-widget.ts"
   },
   "dependencies": {
-    "@bigcommerce/catalyst-client": "^1.0.1",
+    "@bigcommerce/catalyst-client": "workspace:^",
     "@c15t/nextjs": "^1.8.2",
     "@conform-to/react": "^1.6.1",
     "@conform-to/zod": "^1.6.1",
@@ -86,7 +86,7 @@
   "devDependencies": {
     "@0no-co/graphqlsp": "^1.12.16",
     "@bigcommerce/eslint-config": "^2.11.0",
-    "@bigcommerce/eslint-config-catalyst": "^1.0.0",
+    "@bigcommerce/eslint-config-catalyst": "workspace:^",
     "@faker-js/faker": "^9.8.0",
     "@gql.tada/cli-utils": "^1.6.3",
     "@next/bundle-analyzer": "^16.1.6",
