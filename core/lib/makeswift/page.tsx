@@ -190,6 +190,14 @@ export async function Page({ path, locale }: { path: string; locale: string }) {
           limit={12}
         />
       )}
+      {path === '/' && (
+        <MSProductsList
+          additionalProducts={[]}
+          className="mx-auto max-w-7xl px-6 py-12"
+          collection="best-selling"
+          limit={8}
+        />
+      )}
       <MakeswiftPageShim metadata={false} snapshot={snapshot} />
     </>
   );
