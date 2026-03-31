@@ -171,25 +171,6 @@ export async function Page({ path, locale }: { path: string; locale: string }) {
           limit={10}
         />
       )}
-      {path === '/' && (
-        <div className="mx-auto max-w-4xl px-6 py-16">
-          <MSLargeQuote
-            accentColor="blue"
-            author="Sam Walton"
-            quote="There is only one boss. The customer. And he can fire everybody in the company from the chairman on down, simply by spending his money somewhere else."
-            role="Founder, Walmart"
-            size="x-large"
-          />
-        </div>
-      )}
-      {path === '/' && (
-        <MSProductsList
-          additionalProducts={[]}
-          className="mx-auto max-w-7xl px-6 py-12"
-          collection="best-selling"
-          limit={12}
-        />
-      )}
       <MakeswiftPageShim metadata={false} snapshot={snapshot} />
     </>
   );
