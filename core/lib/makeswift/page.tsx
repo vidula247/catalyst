@@ -191,6 +191,14 @@ export async function Page({ path, locale }: { path: string; locale: string }) {
         />
       )}
       <MakeswiftPageShim metadata={false} snapshot={snapshot} />
+      {path === '/' && (
+        <MSProductsList
+          additionalProducts={[]}
+          className="mx-auto max-w-7xl px-6 py-12"
+          collection="best-selling"
+          limit={8}
+        />
+      )}
     </>
   );
 }
