@@ -172,12 +172,26 @@ export async function Page({ path, locale }: { path: string; locale: string }) {
         />
       )}
       {path === '/' && (
-        <MSProductsList
-          additionalProducts={[]}
-          className="mx-auto max-w-7xl px-6 py-12"
-          collection="best-selling"
-          limit={8}
-        />
+        <>
+          <MSProductsList
+            additionalProducts={[]}
+            className="mx-auto max-w-7xl px-6 py-12"
+            collection="best-selling"
+            limit={8}
+          />
+          <MSProductsList
+            additionalProducts={[]}
+            className="mx-auto max-w-7xl px-6 py-12"
+            collection="featured"
+            limit={8}
+          />
+          <MSProductsList
+            additionalProducts={[]}
+            className="mx-auto max-w-7xl px-6 py-12"
+            collection="newest"
+            limit={8}
+          />
+        </>
       )}
       <MakeswiftPageShim metadata={false} snapshot={snapshot} />
     </>
